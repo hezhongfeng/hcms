@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { initData } from './app.init';
 
 @Injectable()
 export class AppService {
@@ -10,7 +11,8 @@ export class AppService {
     console.log('App Module Init.');
   }
 
-  OnApplicationBootstrap() {
-    console.log('完全启动后');
+  onApplicationBootstrap() {
+    console.log('完全启动，开始初始化数据');
+    initData();
   }
 }
