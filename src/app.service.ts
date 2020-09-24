@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { initData } from './app.init';
+import { UserService } from './user/user.service';
 
 @Injectable()
 export class AppService {
+  constructor(private userService: UserService) {}
+
   getHello(): string {
     return 'Hello World!';
   }
@@ -13,6 +16,6 @@ export class AppService {
 
   onApplicationBootstrap() {
     console.log('完全启动，开始初始化数据');
-    initData();
+    initData(this.userService);
   }
 }
