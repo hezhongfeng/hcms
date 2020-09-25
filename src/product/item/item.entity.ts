@@ -1,13 +1,28 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Product } from '../product.entity';
 import { ContentModel } from '../contentmodel/contentmodel.entity';
-import { ActionRecord } from '../../workflow/actionrecord/actionrecord.entity';
-import { Process } from '../../workflow/process/process.entity';
+import { ProcessRecord } from '../../process/record/record.entity';
+import { Process } from '../../process/process.entity';
 
 @Entity()
 export class Item {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 
   @Column()
   name: string;
@@ -32,6 +47,6 @@ export class Item {
   @ManyToOne(() => ContentModel, model => model.items)
   model: ContentModel;
 
-  @OneToMany(() => ActionRecord, record => record.item)
-  records: ActionRecord[];
+  @OneToMany(() => ProcessRecord, record => record.item)
+  records: ProcessRecord[];
 }

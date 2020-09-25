@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { BaseType } from '../basetype/basetype.entity';
 import { ContentModel } from '../contentmodel/contentmodel.entity';
 
@@ -6,6 +6,12 @@ import { ContentModel } from '../contentmodel/contentmodel.entity';
 export class Field {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 
   @Column()
   name: string;
@@ -21,6 +27,6 @@ export class Field {
   @ManyToOne(() => BaseType, baseType => baseType.fields)
   baseType: BaseType;
 
-  @ManyToMany(() => ContentModel, model => model.fields)
-  models: ContentModel[];
+  @ManyToOne(() => ContentModel, model => model.fields)
+  model: ContentModel;
 }

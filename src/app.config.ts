@@ -4,8 +4,8 @@ import { Permission } from './user/permission/permission.entity';
 import { Workflow } from './/workflow/workflow.entity';
 import { WorkflowState } from './/workflow/state/state.entity';
 import { WorkflowAction } from './/workflow/action/action.entity';
-import { Process } from './workflow/process/process.entity';
-import { ActionRecord } from './workflow/actionrecord/actionrecord.entity';
+import { Process } from './process/process.entity';
+import { ProcessRecord } from './process/record/record.entity';
 import { Product } from './product/product.entity';
 import { BaseType } from './product/basetype/basetype.entity';
 import { ContentModel } from './product/contentmodel/contentmodel.entity';
@@ -33,7 +33,7 @@ const dbConfig: TypeOrmModuleOptions = {
     WorkflowState,
     WorkflowAction,
     Process,
-    ActionRecord,
+    ProcessRecord,
     Product,
     BaseType,
     ContentModel,

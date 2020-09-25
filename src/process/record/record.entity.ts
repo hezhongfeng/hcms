@@ -1,12 +1,18 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { WorkflowAction } from '../action/action.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { WorkflowAction } from '../../workflow/action/action.entity';
 import { User } from '../../user/user.entity';
 import { Item } from '../../product/item/item.entity';
 
 @Entity()
-export class ActionRecord {
+export class ProcessRecord {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 
   @Column('text')
   remark: string;

@@ -9,7 +9,7 @@ export class BaseType {
   @Column({
     unique: true,
   })
-  name: string;
+  keyName: string;
 
   @Column('text')
   desc: string;

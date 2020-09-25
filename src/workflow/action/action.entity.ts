@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 import { WorkflowState } from '../state/state.entity';
-import { ActionRecord } from '../actionrecord/actionrecord.entity';
+import { ProcessRecord } from '../../process/record/record.entity';
+import { Permission } from '../../user/permission/permission.entity';
 
 @Entity()
 export class WorkflowAction {
@@ -15,9 +16,15 @@ export class WorkflowAction {
   @Column('text')
   desc: string;
 
+  @OneToMany(() => ProcessRecord, record => record.action)
+  records: ProcessRecord[];
+
   @ManyToOne(() => WorkflowState, state => state.actions)
   state: WorkflowState;
 
-  @OneToMany(() => ActionRecord, record => record.action)
-  records: ActionRecord[];
+  @ManyToMany(() => Permission, permission => permission.actions)
+  @JoinTable({
+    name: 'action_persission',
+  })
+  permissions: Permission[];
 }

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Field } from '../field/field.entity';
 import { Item } from '../item/item.entity';
 
@@ -6,6 +6,12 @@ import { Item } from '../item/item.entity';
 export class ContentModel {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 
   @Column({
     unique: true,
@@ -15,10 +21,7 @@ export class ContentModel {
   @Column('text')
   desc: string;
 
-  @ManyToMany(() => Field, field => field.models)
-  @JoinTable({
-    name: 'model_field',
-  })
+  @OneToMany(() => Field, field => field.model)
   fields: Field[];
 
   @OneToMany(() => Item, item => item.model)

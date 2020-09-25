@@ -1,11 +1,27 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+  ManyToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Item } from './item/item.entity';
 import { User } from '../user/user.entity';
+import { Workflow } from '../workflow/workflow.entity';
 
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 
   @Column()
   name: string;
@@ -26,6 +42,9 @@ export class Product {
 
   @OneToMany(() => Item, item => item.product)
   items: Item[];
+
+  @ManyToOne(() => Workflow, workflow => workflow.products)
+  workflow: Workflow;
 
   @ManyToMany(() => User, user => user.products)
   users: User[];
