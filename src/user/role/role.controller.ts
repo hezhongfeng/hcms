@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { Role } from './role.entity';
-import { Res } from '../../app.res';
+import { Response } from '../../interface/http.response';
 
 @Controller('api/v1/users')
 export class RoleController {
@@ -19,7 +19,7 @@ export class RoleController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id): Promise<Res> {
+  async findOne(@Param('id') id): Promise<Response> {
     console.log(id);
     const data = await this.roleService.create({
       name: 'hezf',
@@ -29,7 +29,7 @@ export class RoleController {
     return {
       data,
       code: '0',
-      errorMessage: '',
+      message: '',
     };
   }
 }

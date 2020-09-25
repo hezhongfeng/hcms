@@ -2,8 +2,8 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RoleService } from './role/role.service';
 import { User } from './user.entity';
-import { Res } from '../app.res';
-import { Role } from './role/role.entity';
+import { Response } from '../interface/http.response';
+// import { Role } from './role/role.entity';
 
 @Controller('api/v1/users')
 export class UserController {
@@ -21,7 +21,7 @@ export class UserController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id): Promise<Res> {
+  async findOne(@Param('id') id): Promise<Response> {
     console.log(id);
 
     // const user = await this.userService.create({
@@ -56,7 +56,7 @@ export class UserController {
     return {
       data,
       code: '0',
-      errorMessage: '',
+      message: '',
     };
   }
 }
