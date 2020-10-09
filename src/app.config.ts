@@ -14,10 +14,8 @@ import { Item } from './product/item/item.entity';
 
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
-import { RoleModule } from './user/role/role.module';
-import { PermissionModule } from './user/permission/permission.module';
 
-const modules: any[] = [UserModule, RoleModule, PermissionModule];
+const modules: any[] = [UserModule];
 
 const dbConfig: TypeOrmModuleOptions = {
   type: 'mysql',
