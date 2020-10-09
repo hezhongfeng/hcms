@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Permission } from './permission.entity';
 
 @Injectable()
-export class PermisssionService {
+export class PermissionService {
   constructor(
     @InjectRepository(Permission)
     private readonly permissionRepository: Repository<Permission>,

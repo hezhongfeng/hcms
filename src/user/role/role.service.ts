@@ -39,4 +39,11 @@ export class RoleService {
       await this.roleRepository.createQueryBuilder().relation(Role, 'users').of(roleId).remove(userId);
     }
   }
+
+  async addPermission(roleId: number, permissionId: number) {
+    const role = await this.roleRepository.findOne(roleId, { relations: ['permissions'] });
+    if (!role.permissions.some(permission => permission.id === permissionId)) {
+      await this.roleRepository.createQueryBuilder().relation(Role, 'permissions').of(roleId).add(permissionId);
+    }
+  }
 }

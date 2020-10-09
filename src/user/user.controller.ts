@@ -3,7 +3,6 @@ import { UserService } from './user.service';
 import { RoleService } from './role/role.service';
 import { User } from './user.entity';
 import { Response } from '../interface/http.response';
-// import { Role } from './role/role.entity';
 
 @Controller('api/v1/users')
 export class UserController {
@@ -34,14 +33,14 @@ export class UserController {
     //   desc: '平台的最高权限拥有者',
     // } as Role);
 
-    // await this.userService.addRole(user, role);
+    // await this.userService.addRole(user.id, role.id);
 
     // const user = await this.userService.getRoles(id);
-    // const user = await this.userService.find(id);
+    const user = await this.userService.find(id);
     // const role = await this.roleService.getUsers(id);
     // const role = await this.roleService.find(id);
 
-    await this.roleService.addUser(1, 3);
+    // await this.roleService.addUser(1, 3);
     // await this.roleService.deleteUser(1, 3);
 
     // await this.userService.addRole(user, role);
@@ -51,7 +50,7 @@ export class UserController {
     // console.log(role);
 
     // const data = user.roles;
-    const data = {};
+    const data = user;
 
     return {
       data,
