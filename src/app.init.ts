@@ -10,7 +10,7 @@ const initData = async function (
   roleService: RoleService,
   permissionService: PermissionService,
 ) {
-  console.log('initData function');
+  console.log('initData function start.');
 
   let adminPermission = null;
   let adminUser = null;
