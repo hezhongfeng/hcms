@@ -18,6 +18,10 @@ export class PermissionService {
     return this.permissionRepository.findOne(id);
   }
 
+  findOne(option: any): Promise<Permission> {
+    return this.permissionRepository.findOne(option);
+  }
+
   async create(permission: Permission) {
     return await this.permissionRepository.save(permission);
   }

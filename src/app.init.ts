@@ -12,26 +12,39 @@ const initData = async function (
 ) {
   console.log('initData function');
 
-  const adminPermission = await permissionService.create({
+  let adminPermission = null;
+  let adminUser = null;
+  let adminRole = null;
+
+  adminPermission = await permissionService.findOne({
+    keyName: 'admin',
+  });
+
+  // 已经init
+  if (adminPermission) {
+    return;
+  }
+
+  adminPermission = await permissionService.create({
     name: '超级管理员权限',
     keyName: 'admin',
     desc: '超级管理员权限',
   } as Permission);
 
-  const user = await userService.create({
-    username: 'admin',
+  adminUser = await userService.create({
+    username: 'admin1',
     password: '123456',
   } as User);
 
-  const role = await roleService.create({
+  adminRole = await roleService.create({
     name: '超级管理员',
     keyName: 'admin',
     desc: '平台的最高权限拥有者',
   } as Role);
 
-  await roleService.addPermission(role.id, adminPermission.id);
+  await roleService.addPermission(adminRole.id, adminPermission.id);
 
-  await userService.addRole(user.id, role.id);
+  await userService.addRole(adminUser.id, adminRole.id);
 };
 
 export { initData };

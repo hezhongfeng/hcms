@@ -18,6 +18,10 @@ export class RoleService {
     return this.roleRepository.findOne(id);
   }
 
+  findOne(option: any): Promise<Role> {
+    return this.roleRepository.findOne(option);
+  }
+
   async create(role: Role) {
     return await this.roleRepository.save(role);
   }
