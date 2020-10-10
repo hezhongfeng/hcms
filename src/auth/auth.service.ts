@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
+// eslint-disable-next-line
+const bcrypt = require('bcryptjs');
 
 @Injectable()
 export class AuthService {
@@ -11,7 +13,7 @@ export class AuthService {
     const user = await this.userService.findOne({
       username,
     });
-    if (user && user.password === pass) {
+    if (user && bcrypt.compareSync(pass, user.password)) {
       const { password, ...result } = user;
       return result;
     }
@@ -19,6 +21,7 @@ export class AuthService {
   }
 
   async login(user: any) {
+    // 这里不能存储过多的信息，否则加密后token过大
     const payload = { username: user.username, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),

@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
+// eslint-disable-next-line
+const bcrypt = require('bcryptjs');
 
 @Injectable()
 export class UserService {
@@ -23,6 +25,7 @@ export class UserService {
   }
 
   async create(user: User) {
+    user.password = bcrypt.hashSync(user.password);
     return await this.userRepository.save(user);
   }
 
