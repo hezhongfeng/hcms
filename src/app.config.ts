@@ -14,8 +14,9 @@ import { Item } from './product/item/item.entity';
 
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import { ProductModule } from './product/product.module';
 
-const modules: any[] = [UserModule];
+const modules: any[] = [UserModule, ProductModule];
 
 const dbConfig: TypeOrmModuleOptions = {
   type: 'mysql',
