@@ -5,7 +5,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { AuthService } from './auth/auth.service';
 import { Response } from './common/http.response';
 
-@Controller()
+@Controller('api/v1')
 export class AppController {
   constructor(private readonly appService: AppService, private readonly authService: AuthService) {}
 
@@ -14,9 +14,8 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  // 内置的login拦截处理
   @UseGuards(LocalAuthGuard)
-  @Post('auth/login')
+  @Post('login')
   @HttpCode(200)
   async login(@Request() req): Promise<Response> {
     const result = await this.authService.login(req.user);
@@ -28,8 +27,8 @@ export class AppController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req): Response {
+  @Get('current')
+  getCurrent(@Request() req): Response {
     return {
       code: '200',
       data: req.user,
