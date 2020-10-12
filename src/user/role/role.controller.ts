@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { Role } from './role.entity';
-import { Response } from '../../interface/http.response';
+import { Response } from '../../common/http.response';
 
 @Controller('api/v1/users')
 export class RoleController {

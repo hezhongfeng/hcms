@@ -2,7 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RoleService } from './role/role.service';
 import { User } from './user.entity';
-import { Response } from '../interface/http.response';
+import { Response } from '../common/http.response';
 
 @Controller('api/v1/users')
 export class UserController {

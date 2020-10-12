@@ -23,8 +23,10 @@ export class AuthService {
   async login(user: any) {
     // 这里不能存储过多的信息，否则加密后token过大
     const payload = { username: user.username, sub: user.id };
+    // return token和基础信息
     return {
       access_token: this.jwtService.sign(payload),
+      userId: user.id,
     };
   }
 }
