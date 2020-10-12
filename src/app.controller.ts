@@ -1,9 +1,11 @@
-import { Controller, Get, Request, Post, UseGuards, HttpCode } from '@nestjs/common';
+import { Controller, Get, Request, Post, UseGuards, HttpCode, SetMetadata } from '@nestjs/common';
 import { AppService } from './app.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { AuthService } from './auth/auth.service';
 import { Response } from './common/http.response';
+import { Permission } from './user/permission.decorator';
+import { PermissionGuard } from './user/permission.guard';
 
 @Controller('api/v1')
 export class AppController {
@@ -26,13 +28,24 @@ export class AppController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  // JWT 守卫验证
+  @UseGuards(JwtAuthGuard, PermissionGuard)
+  @Permission('admin')
   @Get('current')
   getCurrent(@Request() req): Response {
     return {
       code: '200',
       data: req.user,
       message: '',
+    };
+  }
+
+  @Get('test')
+  // @SetMetadata('roles', ['admin'])
+  async create() {
+    return {
+      code: '200',
+      data: 'ok',
     };
   }
 }
