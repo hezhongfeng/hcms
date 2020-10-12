@@ -13,16 +13,26 @@ export class AuthService {
     const user = await this.userService.findOne({
       username,
     });
+    // 使用bcrypt校验密码
     if (user && bcrypt.compareSync(pass, user.password)) {
-      const { password, ...result } = user;
-      return result;
+      let permissions = await this.userService.getPermissions(user.id);
+      permissions = permissions.map(item => {
+        return {
+          id: item.id,
+          keyName: item.keyName,
+        };
+      });
+      return {
+        id: user.id,
+        permissions,
+      };
     }
     return null;
   }
 
   async login(user: any) {
     // 这里不能存储过多的信息，否则加密后token过大
-    const payload = { username: user.username, sub: user.id };
+    const payload = { sub: user.id, permissions: user.permissions };
     // return token和基础信息
     return {
       access_token: this.jwtService.sign(payload),

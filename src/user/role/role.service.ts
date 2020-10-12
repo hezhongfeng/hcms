@@ -50,4 +50,8 @@ export class RoleService {
       await this.roleRepository.createQueryBuilder().relation(Role, 'permissions').of(roleId).add(permissionId);
     }
   }
+
+  async getPermissions(roleId: number) {
+    return await this.roleRepository.findOne(roleId, { relations: ['permissions'] });
+  }
 }
