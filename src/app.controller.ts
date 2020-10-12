@@ -28,7 +28,7 @@ export class AppController {
     };
   }
 
-  // JWT 守卫验证
+  // JWT 守卫验证和基于业务的权限守卫
   @UseGuards(JwtAuthGuard, PermissionGuard)
   @Permission('admin')
   @Get('current')
@@ -41,7 +41,6 @@ export class AppController {
   }
 
   @Get('test')
-  // @SetMetadata('roles', ['admin'])
   async create() {
     return {
       code: '200',
