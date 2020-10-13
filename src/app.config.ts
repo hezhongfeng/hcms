@@ -11,12 +11,12 @@ import { BaseType } from './product/basetype/basetype.entity';
 import { ContentModel } from './product/contentmodel/contentmodel.entity';
 import { Field } from './product/field/field.entity';
 import { Item } from './product/item/item.entity';
-
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { ProductModule } from './product/product.module';
+import { WorkflowModule } from './workflow/workflow.module';
 
-const modules: any[] = [UserModule, ProductModule];
+const modules: any[] = [UserModule, ProductModule, WorkflowModule];
 
 const dbConfig: TypeOrmModuleOptions = {
   type: 'mysql',
