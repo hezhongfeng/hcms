@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Workflow } from './workflow.entity';
 import { WorkflowState } from './state/state.entity';
 import { WorkflowAction } from './action/action.entity';
+import { WorkflowActionService } from './action/action.service';
 
 @Injectable()
 export class WorkflowService {
@@ -52,5 +53,27 @@ export class WorkflowService {
       await this.workflowRepository.createQueryBuilder().relation(Workflow, 'states').of(workflow.id).add(state.id);
     }
     return workflow;
+  }
+
+  // 给 Action 匹配已有的 Permission
+  async actionAddPermission(actionKeyName: string, permissionKeyName: string) {
+    const action = await this.actionRepository.findOne(
+      {
+        keyName: actionKeyName,
+      },
+      {
+        relations: ['permissions'],
+      },
+    );
+    const permission = await this.actionRepository.findOne({
+      keyName: permissionKeyName,
+    });
+    if (!action.permissions.some(item => item.keyName === permissionKeyName)) {
+      await this.actionRepository
+        .createQueryBuilder()
+        .relation(WorkflowAction, 'permissions')
+        .of(action.id)
+        .add(permission.id);
+    }
   }
 }

@@ -6,9 +6,6 @@ import { ProductService } from './product/product.service';
 import { User } from './user/user.entity';
 import { Role } from './user/role/role.entity';
 import { Permission } from './user/permission/permission.entity';
-import { Workflow } from './workflow/workflow.entity';
-import { WorkflowState } from './workflow/state/state.entity';
-import { WorkflowAction } from './workflow/action/action.entity';
 import { BaseType } from './product/basetype/basetype.entity';
 
 const initData = async function (
@@ -20,102 +17,107 @@ const initData = async function (
 ) {
   console.log('initData function start.');
 
-  // let defaultWorkflow = null;
+  // 防止重复初始化数据
+  if (
+    await permissionService.findOne({
+      keyName: 'admin',
+    })
+  ) {
+    return;
+  }
 
   // 初始化产品相关
-  // const baseTypes = [
-  //   {
-  //     name: '文本',
-  //     keyName: 'text',
-  //   },
-  //   {
-  //     name: '布尔',
-  //     keyName: 'boolean',
-  //   },
-  //   {
-  //     name: 'json',
-  //     keyName: 'json',
-  //   },
-  //   {
-  //     name: '图片',
-  //     keyName: 'image',
-  //   },
-  //   {
-  //     name: '视频',
-  //     keyName: 'video',
-  //   },
-  //   {
-  //     name: '音频',
-  //     keyName: 'audio',
-  //   },
-  // ];
+  const baseTypes = [
+    {
+      name: '文本',
+      keyName: 'text',
+    },
+    {
+      name: '布尔',
+      keyName: 'boolean',
+    },
+    {
+      name: 'json',
+      keyName: 'json',
+    },
+    {
+      name: '图片',
+      keyName: 'image',
+    },
+    {
+      name: '视频',
+      keyName: 'video',
+    },
+    {
+      name: '音频',
+      keyName: 'audio',
+    },
+  ];
 
-  // for (const baseType of baseTypes) {
-  //   await productService.createBaseType(baseType as BaseType);
-  // }
+  for (const baseType of baseTypes) {
+    await productService.createBaseType(baseType as BaseType);
+  }
 
-  // 初始化工作流相关
-  // defaultWorkflow = await workflowService.createWorkflow({
-  //   name: '祥云工作流',
-  //   desc: '初始工作流',
-  //   states: [
-  //     {
-  //       name: '测试中',
-  //       keyName: 'testing',
-  //       desc: '流程的初始状态，主要对各个终端的表现形势和内容进行测试',
-  //       actions: [
-  //         {
-  //           name: '通过',
-  //           keyName: 'tester-approve',
-  //         },
-  //         {
-  //           name: '驳回',
-  //           keyName: 'tester-reject',
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       name: '审核中',
-  //       keyName: 'reviewing',
-  //       desc: '这阶段主要对文字和图片内容进行审核',
-  //       actions: [
-  //         {
-  //           name: '通过',
-  //           keyName: 'reviewer-approve',
-  //         },
-  //         {
-  //           name: '驳回',
-  //           keyName: 'reviewer-reject',
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       name: '待发布',
-  //       keyName: 'publishing',
-  //       desc: '测试审核阶段已经完成，待发布状态',
-  //       actions: [
-  //         {
-  //           name: '正式发布',
-  //           keyName: 'operation-publish',
-  //         },
-  //         {
-  //           name: '取消发布',
-  //           keyName: 'operation-cancel',
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       name: '已结束',
-  //       keyName: 'finish',
-  //       desc: '流程已完结，不可操作和改变状态',
-  //       actions: [],
-  //     },
-  //   ],
-  // });
-  // console.log(defaultWorkflow);
+  // 初始化工作流相关;
+  await workflowService.createWorkflow({
+    name: '祥云工作流',
+    desc: '初始工作流',
+    states: [
+      {
+        name: '测试中',
+        keyName: 'testing',
+        desc: '流程的初始状态，主要对各个终端的表现形势和内容进行测试',
+        actions: [
+          {
+            name: '通过',
+            keyName: 'tester-approve',
+          },
+          {
+            name: '驳回',
+            keyName: 'tester-reject',
+          },
+        ],
+      },
+      {
+        name: '审核中',
+        keyName: 'reviewing',
+        desc: '这阶段主要对文字和图片内容进行审核',
+        actions: [
+          {
+            name: '通过',
+            keyName: 'reviewer-approve',
+          },
+          {
+            name: '驳回',
+            keyName: 'reviewer-reject',
+          },
+        ],
+      },
+      {
+        name: '待发布',
+        keyName: 'publishing',
+        desc: '测试审核阶段已经完成，待发布状态',
+        actions: [
+          {
+            name: '正式发布',
+            keyName: 'operation-publish',
+          },
+          {
+            name: '取消发布',
+            keyName: 'operation-cancel',
+          },
+        ],
+      },
+      {
+        name: '已结束',
+        keyName: 'finish',
+        desc: '流程已完结，不可操作和改变状态',
+        actions: [],
+      },
+    ],
+  });
 
   // 初始化角色权限相关
-
   const roles = [
     {
       name: '产品管理员',
@@ -220,6 +222,14 @@ const initData = async function (
 
   await roleService.addPermission(adminRole.id, adminPermission.id);
   await userService.addRole(adminUser.id, adminRole.id);
+
+  // 初始化权限和Action的关系
+  await workflowService.actionAddPermission('tester-approve', 'tester-approve');
+  await workflowService.actionAddPermission('tester-reject', 'tester-reject');
+  await workflowService.actionAddPermission('reviewer-approve', 'reviewer-approve');
+  await workflowService.actionAddPermission('reviewer-reject', 'reviewer-reject');
+  await workflowService.actionAddPermission('operation-publish', 'operation-publish');
+  await workflowService.actionAddPermission('operation-cancel', 'operation-cancel');
 };
 
 export { initData };
