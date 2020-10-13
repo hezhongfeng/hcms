@@ -9,6 +9,11 @@ export class BaseType {
   @Column({
     unique: true,
   })
+  name: string;
+
+  @Column({
+    unique: true,
+  })
   keyName: string;
 
   @Column({

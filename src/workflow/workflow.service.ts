@@ -16,6 +16,10 @@ export class WorkflowService {
     private readonly actionRepository: Repository<WorkflowAction>,
   ) {}
 
+  async findOne(option: any) {
+    return this.workflowRepository.findOne(option);
+  }
+
   async findAll(): Promise<[Workflow[], number]> {
     return this.workflowRepository.findAndCount({
       skip: 0,

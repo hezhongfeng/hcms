@@ -4,6 +4,7 @@ import { UserService } from './user/user.service';
 import { RoleService } from './user/role/role.service';
 import { PermissionService } from './user/permission/permission.service';
 import { WorkflowService } from './workflow/workflow.service';
+import { ProductService } from './product/product.service';
 
 @Injectable()
 export class AppService {
@@ -12,6 +13,7 @@ export class AppService {
     private roleService: RoleService,
     private permissionService: PermissionService,
     private workflowService: WorkflowService,
+    private productService: ProductService,
   ) {}
 
   getHello(): string {
@@ -24,6 +26,6 @@ export class AppService {
 
   onApplicationBootstrap() {
     console.log('完全启动，开始初始化数据');
-    initData(this.userService, this.roleService, this.permissionService, this.workflowService);
+    initData(this.userService, this.roleService, this.permissionService, this.workflowService, this.productService);
   }
 }
