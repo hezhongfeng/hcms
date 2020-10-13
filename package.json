@@ -1,7 +1,11 @@
 {
-  "name": "nest-typescript-starter",
+  "name": "hcms",
   "private": true,
   "version": "1.0.0",
+  "author": {
+    "name": "hezf",
+    "email": "hezfemail@qq.com"
+  },
   "description": "Nest TypeScript starter repository",
   "license": "MIT",
   "scripts": {
