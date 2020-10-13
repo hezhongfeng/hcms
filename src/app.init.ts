@@ -20,51 +20,39 @@ const initData = async function (
 ) {
   console.log('initData function start.');
 
-  // let adminPermission = null;
-  // let adminUser = null;
-  // let adminRole = null;
   // let defaultWorkflow = null;
 
-  // adminPermission = await permissionService.findOne({
-  //   keyName: 'admin',
-  // });
-
-  // 已经init
-  // if (adminPermission) {
-  //   return;
-  // }
-
   // 初始化产品相关
-  const baseTypes = [
-    {
-      name: '文本',
-      keyName: 'text',
-    },
-    {
-      name: '布尔',
-      keyName: 'boolean',
-    },
-    {
-      name: 'json',
-      keyName: 'json',
-    },
-    {
-      name: '图片',
-      keyName: 'image',
-    },
-    {
-      name: '视频',
-      keyName: 'video',
-    },
-    {
-      name: '音频',
-      keyName: 'audio',
-    },
-  ];
+  // const baseTypes = [
+  //   {
+  //     name: '文本',
+  //     keyName: 'text',
+  //   },
+  //   {
+  //     name: '布尔',
+  //     keyName: 'boolean',
+  //   },
+  //   {
+  //     name: 'json',
+  //     keyName: 'json',
+  //   },
+  //   {
+  //     name: '图片',
+  //     keyName: 'image',
+  //   },
+  //   {
+  //     name: '视频',
+  //     keyName: 'video',
+  //   },
+  //   {
+  //     name: '音频',
+  //     keyName: 'audio',
+  //   },
+  // ];
 
-  for (const baseType of baseTypes) {
-    await productService.createBaseType(baseType as BaseType);
-  }
+  // for (const baseType of baseTypes) {
+  //   await productService.createBaseType(baseType as BaseType);
+  // }
 
   // 初始化工作流相关
   // defaultWorkflow = await workflowService.createWorkflow({
@@ -126,26 +114,112 @@ const initData = async function (
   // });
   // console.log(defaultWorkflow);
 
-  // adminPermission = await permissionService.create({
-  //   name: '超级管理员权限',
-  //   keyName: 'admin',
-  //   desc: '超级管理员权限',
-  // } as Permission);
+  // 初始化角色权限相关
 
-  // adminUser = await userService.create({
-  //   username: 'admin1',
-  //   password: '123456',
-  // } as User);
+  const roles = [
+    {
+      name: '产品管理员',
+      keyName: 'manager',
+      desc: '编辑产品功能项的内容和提交测试',
+      permissions: [
+        {
+          name: '功能项编辑',
+          keyName: 'manager-edit',
+          desc: '编辑产品内容的权限',
+        },
+        {
+          name: '功能项提交',
+          keyName: 'manager-release',
+          desc: '发布产品内容的权限',
+        },
+      ],
+    },
+    {
+      name: '测试人员',
+      keyName: 'tester',
+      desc: '测试此功能项内容的终端表现',
+      permissions: [
+        {
+          name: '测试通过',
+          keyName: 'tester-approve',
+          desc: '进入下一流程',
+        },
+        {
+          name: '测试驳回',
+          keyName: 'tester-reject',
+          desc: '测试不通过，需重新提交',
+        },
+      ],
+    },
+    {
+      name: '审核人员',
+      keyName: 'reviewer',
+      desc: '审核此功能项内容',
+      permissions: [
+        {
+          name: '审核通过',
+          keyName: 'reviewer-approve',
+          desc: '进入下一流程',
+        },
+        {
+          name: '审核驳回',
+          keyName: 'reviewer-reject',
+          desc: '审核不通过，需重新提交',
+        },
+      ],
+    },
+    {
+      name: '运维人员',
+      keyName: 'operation',
+      desc: '发布到生产环境',
+      permissions: [
+        {
+          name: '正式发布',
+          keyName: 'operation-publish',
+          desc: '正式发布',
+        },
+        {
+          name: '取消发布',
+          keyName: 'operation-cancel',
+          desc: '结束流程，不发布',
+        },
+      ],
+    },
+  ];
 
-  // adminRole = await roleService.create({
-  //   name: '超级管理员',
-  //   keyName: 'admin',
-  //   desc: '平台的最高权限拥有者',
-  // } as Role);
+  for (const roleObj of roles) {
+    const role = await roleService.create({
+      name: roleObj.name,
+      keyName: roleObj.keyName,
+      desc: roleObj.desc,
+    } as Role);
+    for (const permissionObj of roleObj.permissions) {
+      const permission = await permissionService.create({
+        name: permissionObj.name,
+        keyName: permissionObj.keyName,
+        desc: permissionObj.desc,
+      } as Permission);
+      await roleService.addPermission(role.id, permission.id);
+    }
+  }
 
-  // await roleService.addPermission(adminRole.id, adminPermission.id);
+  const adminPermission = await permissionService.create({
+    name: '超级管理员权限',
+    keyName: 'admin',
+    desc: '超级管理员权限',
+  } as Permission);
+  const adminUser = await userService.create({
+    username: 'admin',
+    password: 'admin_278721524',
+  } as User);
+  const adminRole = await roleService.create({
+    name: '超级管理员',
+    keyName: 'admin',
+    desc: '平台的最高权限拥有者',
+  } as Role);
 
-  // await userService.addRole(adminUser.id, adminRole.id);
+  await roleService.addPermission(adminRole.id, adminPermission.id);
+  await userService.addRole(adminUser.id, adminRole.id);
 };
 
 export { initData };
