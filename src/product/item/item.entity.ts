@@ -32,7 +32,9 @@ export class Item {
   })
   keyName: string;
 
-  @Column('text')
+  @Column({
+    default: '',
+  })
   desc: string;
 
   @Column('json')

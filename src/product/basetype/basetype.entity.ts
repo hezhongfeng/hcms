@@ -11,7 +11,9 @@ export class BaseType {
   })
   keyName: string;
 
-  @Column('text')
+  @Column({
+    default: '',
+  })
   desc: string;
 
   @OneToMany(() => Field, field => field.baseType)

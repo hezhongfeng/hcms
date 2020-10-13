@@ -35,10 +35,12 @@ export class Product {
   @Column()
   appSecret: string;
 
-  @Column('text')
+  @Column({
+    default: '',
+  })
   desc: string;
 
-  @Column('text')
+  @Column()
   image: string;
 
   @OneToMany(() => Item, item => item.product)

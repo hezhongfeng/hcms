@@ -29,7 +29,9 @@ export class Role {
   })
   keyName: string;
 
-  @Column('text')
+  @Column({
+    default: '',
+  })
   desc: string;
 
   @ManyToMany(() => User, user => user.roles)

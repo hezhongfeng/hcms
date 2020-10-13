@@ -22,7 +22,9 @@ export class Process {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @Column('text')
+  @Column({
+    default: '',
+  })
   desc: string;
 
   @ManyToOne(() => WorkflowState, state => state.processes)

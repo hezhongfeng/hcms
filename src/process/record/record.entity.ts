@@ -14,7 +14,7 @@ export class ProcessRecord {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @Column('text')
+  @Column()
   remark: string;
 
   @ManyToOne(() => WorkflowAction, action => action.records)

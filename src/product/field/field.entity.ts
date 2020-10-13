@@ -21,7 +21,9 @@ export class Field {
   })
   keyName: string;
 
-  @Column('text')
+  @Column({
+    default: '',
+  })
   desc: string;
 
   @ManyToOne(() => BaseType, baseType => baseType.fields)

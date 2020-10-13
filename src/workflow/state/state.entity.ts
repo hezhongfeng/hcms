@@ -16,7 +16,9 @@ export class WorkflowState {
   })
   keyName: string;
 
-  @Column('text')
+  @Column({
+    default: '',
+  })
   desc: string;
 
   @ManyToOne(() => Workflow, workflow => workflow.states)

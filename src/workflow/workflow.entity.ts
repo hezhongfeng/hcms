@@ -18,7 +18,9 @@ export class Workflow {
   })
   name: string;
 
-  @Column('text')
+  @Column({
+    default: '',
+  })
   desc: string;
 
   @OneToMany(() => WorkflowState, state => state.workflow)

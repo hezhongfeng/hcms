@@ -16,7 +16,9 @@ export class WorkflowAction {
   })
   keyName: string;
 
-  @Column('text')
+  @Column({
+    default: '',
+  })
   desc: string;
 
   @OneToMany(() => ProcessRecord, record => record.action)

@@ -21,7 +21,9 @@ export class Permission {
   })
   keyName: string;
 
-  @Column('text')
+  @Column({
+    default: '',
+  })
   desc: string;
 
   @ManyToMany(() => Role, role => role.permissions)

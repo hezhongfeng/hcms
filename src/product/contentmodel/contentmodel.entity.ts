@@ -27,7 +27,9 @@ export class ContentModel {
   })
   name: string;
 
-  @Column('text')
+  @Column({
+    default: '',
+  })
   desc: string;
 
   @OneToMany(() => Field, field => field.model)
