@@ -212,7 +212,7 @@ const initData = async function (
   } as Permission);
   const adminUser = await userService.create({
     username: 'admin',
-    password: 'admin_278721524',
+    password: 'admin_init',
   } as User);
   const adminRole = await roleService.create({
     name: '超级管理员',
