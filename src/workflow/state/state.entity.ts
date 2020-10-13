@@ -8,10 +8,13 @@ export class WorkflowState {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  name: string;
+
   @Column({
     unique: true,
   })
-  name: string;
+  keyName: string;
 
   @Column('text')
   desc: string;

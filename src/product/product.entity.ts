@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Item } from './item/item.entity';
+import { ContentModel } from './contentmodel/contentmodel.entity';
 import { User } from '../user/user.entity';
 import { Workflow } from '../workflow/workflow.entity';
 
@@ -42,6 +43,9 @@ export class Product {
 
   @OneToMany(() => Item, item => item.product)
   items: Item[];
+
+  @OneToMany(() => ContentModel, contentModel => contentModel.product)
+  contentModels: ContentModel[];
 
   @ManyToOne(() => Workflow, workflow => workflow.products)
   workflow: Workflow;

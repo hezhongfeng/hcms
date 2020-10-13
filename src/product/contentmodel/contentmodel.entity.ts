@@ -1,6 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Field } from '../field/field.entity';
 import { Item } from '../item/item.entity';
+import { Product } from '../product.entity';
 
 @Entity()
 export class ContentModel {
@@ -26,4 +35,7 @@ export class ContentModel {
 
   @OneToMany(() => Item, item => item.model)
   items: Item[];
+
+  @ManyToOne(() => Product, product => product.items)
+  product: Product;
 }

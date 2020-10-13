@@ -8,10 +8,13 @@ export class WorkflowAction {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  name: string;
+
   @Column({
     unique: true,
   })
-  name: string;
+  keyName: string;
 
   @Column('text')
   desc: string;
@@ -24,7 +27,7 @@ export class WorkflowAction {
 
   @ManyToMany(() => Permission, permission => permission.actions)
   @JoinTable({
-    name: 'action_persission',
+    name: 'action_permission',
   })
   permissions: Permission[];
 }

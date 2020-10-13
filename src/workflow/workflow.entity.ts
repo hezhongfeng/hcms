@@ -13,13 +13,10 @@ export class Workflow {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @Column()
-  name: string;
-
   @Column({
     unique: true,
   })
-  keyName: string;
+  name: string;
 
   @Column('text')
   desc: string;
